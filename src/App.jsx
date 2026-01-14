@@ -363,7 +363,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 py-4 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center text-white">
         <div className="text-2xl font-black font-mono tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 text-white">
-          VEE.DEV
+          VEECODES.ID
         </div>
         <div className="hidden md:flex gap-10 text-white">
           {navLinks.map((link) => (
