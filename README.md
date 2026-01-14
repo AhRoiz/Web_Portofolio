@@ -1,7 +1,6 @@
 # VEE.DEV - Futuristic Personal Portfolio
 
-![Portfolio Preview](https://via.placeholder.com/1200x600.png?text=VEE.DEV+Portfolio+Preview)
-*(Catatan: Ganti link gambar di atas dengan screenshot asli website kamu setelah di-deploy)*
+![Portfolio Preview] (e:\OneDrive\Pictures\Screenshots 1\Screenshot 2026-01-14 181405.png)
 
 Website portofolio pribadi interaktif yang dirancang dengan tema futuristik dan **Cyber/Tech aesthetic**. Dibangun menggunakan **React JS** dan **Tailwind CSS**, website ini menampilkan visualisasi 3D yang memukau, animasi yang halus, dan antarmuka pengguna bergaya *glassmorphism*.
 
@@ -22,7 +21,7 @@ Project ini dibangun menggunakan teknologi berikut:
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 * **3D Graphics:** [Three.js](https://threejs.org/) (Custom implementation)
 * **Icons:** [Lucide React](https://lucide.dev/)
-* **Deployment:** [Vercel](https://vercel.com/) (Recommended)
+* **Deployment:** [Vercel](https://vercel.com/) 
 
 ## 📂 Struktur Bagian (Sections)
 
