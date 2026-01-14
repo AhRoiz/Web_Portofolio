@@ -70,7 +70,7 @@ Beberapa proyek yang ditampilkan dalam portofolio ini:
 
 * **Author:** Ahmad Rofi' Izzulhaq (Vee)
 * **Instagram:** [@ari.ioz](https://www.instagram.com/ari.ioz/)
-* **Twitter:** [@AhRoiz](https://twitter.com/AhRoiz)
+* **Twitter:** [@AhRoiz](https://twitter.com/ahrofzul56684)
 * **LinkedIn:** [Ahmad Rofi' Izzulhaq](https://www.linkedin.com/in/ahroiz)
 * **GitHub:** [AhRoiz](https://github.com/AhRoiz)
 
