@@ -37,6 +37,7 @@ import {
   Twitter, 
   Youtube  
 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 //Icon X Custom
 const IconX = ({ size = 20, className }) => (
@@ -1072,6 +1073,9 @@ const About = () => (
 
 // 7. Contact Section
 const Contact = () => {
+  const form = useRef();
+  const [loading, setLoading] = useState(false);
+
   const socialLinks = [
     { icon: <Instagram size={20} />, label: "Instagram", href: "https://www.instagram.com/ari.ioz/", color: "hover:bg-pink-600" },
     { icon: <IconX size={20} />, label: "Twitter", href: "https://twitter.com/ahrofzul56684", color: "hover:bg-blue-400" },
@@ -1082,6 +1086,29 @@ const Contact = () => {
     { icon: <IconWhatsapp size={20} />, label: "WhatsApp", href: "https://wa.me/6282120648685", color: "hover:bg-indigo-600" }
   ];
 
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // GANTI TIGA TEXT DI BAWAH INI DENGAN ID DARI EMAILJS KAMU
+    // SANGAT DISARANKAN PAKAI .ENV (lihat langkah 4), TAPI HARDCODE JUGA BISA UNTUK TES
+    emailjs.sendForm(
+      import.meta.env.VITE_SERVICE_ID,   
+      import.meta.env.VITE_TEMPLATE_ID,  
+      form.current,
+      import.meta.env.VITE_PUBLIC_KEY
+    )
+    .then((result) => {
+        alert("Pesan berhasil dikirim! Saya akan segera membalasnya.");
+        setLoading(false);
+        e.target.reset(); // Reset form setelah kirim
+    }, (error) => {
+        alert("Gagal mengirim pesan. Silakan coba lagi atau hubungi via DM Instagram.");
+        console.log(error.text);
+        setLoading(false);
+    });
+  };
+
   return (
     <footer id="contact" className="py-32 px-6 border-t border-white/5 bg-black/90 backdrop-blur-2xl overflow-hidden relative text-white">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 text-white">
@@ -1090,16 +1117,43 @@ const Contact = () => {
             <h2 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter text-white">Get In <span className="text-blue-500 italic text-white">Touch.</span></h2>
             <p className="text-gray-400 max-w-md font-light leading-relaxed mb-10 text-white">Punya proyek menarik atau ingin sekadar menyapa? Kirimkan pesan langsung melalui formulir terenkripsi ini.</p>
           </div>
-          <form className="space-y-6 text-white">
+          
+          {/* Form dimulai disini */}
+          <form ref={form} onSubmit={sendEmail} className="space-y-6 text-white">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
-              <input type="text" placeholder="Nama Lengkap" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light focus:bg-white/10 text-white" />
-              <input type="email" placeholder="Alamat Email" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light focus:bg-white/10 text-white" />
+              <input 
+                type="text" 
+                name="user_name" // PENTING: Harus sama dengan variabel di EmailJS
+                required
+                placeholder="Nama Lengkap" 
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light focus:bg-white/10 text-white" 
+              />
+              <input 
+                type="email" 
+                name="user_email" // PENTING
+                required
+                placeholder="Alamat Email" 
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light focus:bg-white/10 text-white" 
+              />
             </div>
-            <textarea placeholder="Pesan Anda" rows="5" className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light resize-none focus:bg-white/10 text-white"></textarea>
-            <button className="px-12 py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center gap-3 transition-all hover:scale-[1.03] active:scale-95 group text-white">
-              KIRIM_PESAN() <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform text-white" />
+            <textarea 
+              name="message" // PENTING
+              required
+              rows="5" 
+              placeholder="Pesan Anda" 
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light resize-none focus:bg-white/10 text-white"
+            ></textarea>
+            
+            <button 
+              type="submit" 
+              disabled={loading}
+              className={`px-12 py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center gap-3 transition-all hover:scale-[1.03] active:scale-95 group text-white ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+            >
+              {loading ? 'MENGIRIM...' : 'KIRIM_PESAN()'} 
+              {!loading && <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform text-white" />}
             </button>
           </form>
+
         </FadeInSection>
         <div className="space-y-16 text-white">
           <FadeInSection delay={200}>
