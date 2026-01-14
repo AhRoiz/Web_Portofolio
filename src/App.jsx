@@ -35,9 +35,12 @@ import {
   Coffee,
   MessageSquare,
   Twitter, 
-  Youtube  
+  Youtube,
+  CloudSnow, 
+  Sun,       
+  Layers     
 } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser'; 
 
 //Icon X Custom
 const IconX = ({ size = 20, className }) => (
@@ -90,12 +93,12 @@ const IconDiscord = ({ size = 20, className }) => (
 //URL Three.js dari CDN
 const THREE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
 
-//Latar Belakang 3D (Waves & Aurora) ---
-const ThreeBackground = () => {
+//Latar Belakang 3D (Waves & Aurora & Seasons) ---
+const ThreeBackground = ({ season }) => {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    let renderer, scene, camera, points, auroraPoints;
+    let renderer, scene, camera, particles, auroraPoints;
     let mouseX = 0, mouseY = 0;
     let scrollY = 0;
     let windowHalfX = window.innerWidth / 2;
@@ -129,74 +132,132 @@ const ThreeBackground = () => {
       camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
       camera.position.set(0, 400, 1000);
 
-      //1. WAVE SYSTEM 
-      const SEPARATION = 100, AMOUNTX = 45, AMOUNTY = 45;
-      const numParticles = AMOUNTX * AMOUNTY;
-      const wavePositions = new Float32Array(numParticles * 3);
-      const waveScales = new Float32Array(numParticles);
-
-      let i = 0, j = 0;
-      for (let ix = 0; ix < AMOUNTX; ix++) {
-        for (let iy = 0; iy < AMOUNTY; iy++) {
-          wavePositions[i] = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-          wavePositions[i + 1] = -200;
-          wavePositions[i + 2] = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
-          waveScales[j] = 1;
-          i += 3; j++;
-        }
-      }
-
-      const waveGeometry = new THREE.BufferGeometry();
-      waveGeometry.setAttribute('position', new THREE.BufferAttribute(wavePositions, 3));
-      waveGeometry.setAttribute('scale', new THREE.BufferAttribute(waveScales, 1));
-
-      const waveMaterial = new THREE.PointsMaterial({
-        color: 0x3b82f6,
-        size: 3,
-        transparent: true,
-        opacity: 0.5,
-      });
-
-      points = new THREE.Points(waveGeometry, waveMaterial);
-      scene.add(points);
-
-      //2. AURORA SYSTEM 
-      const auroraCount = 1200; 
-      const auroraPos = new Float32Array(auroraCount * 3);
-      const auroraColors = new Float32Array(auroraCount * 3);
-      
-      for (let a = 0; a < auroraCount; a++) {
-        auroraPos[a * 3] = (Math.random() - 0.5) * 4000;
-        auroraPos[a * 3 + 1] = 400 + Math.random() * 500;
-        auroraPos[a * 3 + 2] = -1200 + Math.random() * 1800;
-
-        const isGreen = Math.random() > 0.4;
-        auroraColors[a * 3] = isGreen ? 0.1 : 0.5;
-        auroraColors[a * 3 + 1] = isGreen ? 0.7 : 0.1;
-        auroraColors[a * 3 + 2] = isGreen ? 0.3 : 0.7;
-      }
-
-      const auroraGeometry = new THREE.BufferGeometry();
-      auroraGeometry.setAttribute('position', new THREE.BufferAttribute(auroraPos, 3));
-      auroraGeometry.setAttribute('color', new THREE.BufferAttribute(auroraColors, 3));
-
-      const auroraMaterial = new THREE.PointsMaterial({
-        size: 6,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.35,
-        blending: THREE.AdditiveBlending
-      });
-
-      auroraPoints = new THREE.Points(auroraGeometry, auroraMaterial);
-      scene.add(auroraPoints);
-
       renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true }); 
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
       renderer.setSize(window.innerWidth, window.innerHeight);
       
       if (mountRef.current) {
+        mountRef.current.innerHTML = ''; // Reset canvas saat season berubah
         mountRef.current.appendChild(renderer.domElement);
+      }
+
+      // LOGIKA SEASON 
+      
+      if (season === 'winter') {
+        //  MUSIM SALJU (Winter) 
+        const particleCount = 1500;
+        const geom = new THREE.BufferGeometry();
+        const pos = new Float32Array(particleCount * 3);
+        const vel = new Float32Array(particleCount);
+
+        for(let i=0; i<particleCount; i++) {
+          pos[i*3] = (Math.random() - 0.5) * 4000;
+          pos[i*3+1] = (Math.random() - 0.5) * 4000;
+          pos[i*3+2] = (Math.random() - 0.5) * 4000;
+          vel[i] = 1 + Math.random() * 3; // Kecepatan jatuh
+        }
+        geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        
+        const mat = new THREE.PointsMaterial({
+          color: 0xffffff,
+          size: 4,
+          transparent: true,
+          opacity: 0.8
+        });
+        particles = new THREE.Points(geom, mat);
+        particles.userData = { velocities: vel, type: 'snow' };
+        scene.add(particles);
+
+      } else if (season === 'summer') {
+        //  MUSIM KEMARAU/SEMI (Fireflies) 
+        const particleCount = 500;
+        const geom = new THREE.BufferGeometry();
+        const pos = new Float32Array(particleCount * 3);
+        const phases = new Float32Array(particleCount);
+
+        for(let i=0; i<particleCount; i++) {
+          pos[i*3] = (Math.random() - 0.5) * 3000;
+          pos[i*3+1] = (Math.random() - 0.5) * 2000;
+          pos[i*3+2] = (Math.random() - 0.5) * 3000;
+          phases[i] = Math.random() * Math.PI * 2;
+        }
+        geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+
+        const mat = new THREE.PointsMaterial({
+          color: 0xffaa00, // Warna oranye hangat
+          size: 6,
+          transparent: true,
+          opacity: 0.7,
+          blending: THREE.AdditiveBlending
+        });
+        particles = new THREE.Points(geom, mat);
+        particles.userData = { phases: phases, type: 'fireflies' };
+        scene.add(particles);
+
+      } else {
+        //  DEFAULT (Wave & Aurora) 
+        // 1. WAVE SYSTEM 
+        const SEPARATION = 100, AMOUNTX = 45, AMOUNTY = 45;
+        const numParticles = AMOUNTX * AMOUNTY;
+        const wavePositions = new Float32Array(numParticles * 3);
+        const waveScales = new Float32Array(numParticles);
+
+        let i = 0, j = 0;
+        for (let ix = 0; ix < AMOUNTX; ix++) {
+          for (let iy = 0; iy < AMOUNTY; iy++) {
+            wavePositions[i] = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
+            wavePositions[i + 1] = -200;
+            wavePositions[i + 2] = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
+            waveScales[j] = 1;
+            i += 3; j++;
+          }
+        }
+
+        const waveGeometry = new THREE.BufferGeometry();
+        waveGeometry.setAttribute('position', new THREE.BufferAttribute(wavePositions, 3));
+        waveGeometry.setAttribute('scale', new THREE.BufferAttribute(waveScales, 1));
+
+        const waveMaterial = new THREE.PointsMaterial({
+          color: 0x3b82f6,
+          size: 3,
+          transparent: true,
+          opacity: 0.5,
+        });
+
+        particles = new THREE.Points(waveGeometry, waveMaterial);
+        particles.userData = { type: 'wave', amountX: AMOUNTX, amountY: AMOUNTY };
+        scene.add(particles);
+
+        // 2. AURORA SYSTEM 
+        const auroraCount = 1200; 
+        const auroraPos = new Float32Array(auroraCount * 3);
+        const auroraColors = new Float32Array(auroraCount * 3);
+        
+        for (let a = 0; a < auroraCount; a++) {
+          auroraPos[a * 3] = (Math.random() - 0.5) * 4000;
+          auroraPos[a * 3 + 1] = 400 + Math.random() * 500;
+          auroraPos[a * 3 + 2] = -1200 + Math.random() * 1800;
+
+          const isGreen = Math.random() > 0.4;
+          auroraColors[a * 3] = isGreen ? 0.1 : 0.5;
+          auroraColors[a * 3 + 1] = isGreen ? 0.7 : 0.1;
+          auroraColors[a * 3 + 2] = isGreen ? 0.3 : 0.7;
+        }
+
+        const auroraGeometry = new THREE.BufferGeometry();
+        auroraGeometry.setAttribute('position', new THREE.BufferAttribute(auroraPos, 3));
+        auroraGeometry.setAttribute('color', new THREE.BufferAttribute(auroraColors, 3));
+
+        const auroraMaterial = new THREE.PointsMaterial({
+          size: 6,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.35,
+          blending: THREE.AdditiveBlending
+        });
+
+        auroraPoints = new THREE.Points(auroraGeometry, auroraMaterial);
+        scene.add(auroraPoints);
       }
 
       window.addEventListener('resize', onWindowResize);
@@ -210,27 +271,62 @@ const ThreeBackground = () => {
         camera.position.x += (mouseX - camera.position.x) * 0.05;
         const targetY = -mouseY + 400 - (scrollY * 0.15);
         camera.position.y += (targetY - camera.position.y) * 0.05;
-        camera.lookAt(0, 100 - (scrollY * 0.05), 0);
-
-        if (points) {
-          const wavePos = points.geometry.attributes.position.array;
-          let i = 0;
-          for (let ix = 0; ix < AMOUNTX; ix++) {
-            for (let iy = 0; iy < AMOUNTY; iy++) {
-              const scrollInfluence = scrollY * 0.0005;
-              wavePos[i + 1] = (Math.sin((ix + count + scrollInfluence) * 0.3) * 40) + (Math.sin((iy + count) * 0.5) * 40);
-              i += 3;
-            }
-          }
-          points.geometry.attributes.position.needsUpdate = true;
+        
+        // Sedikit penyesuaian lookAt untuk mode seasonal
+        if (season === 'default') {
+            camera.lookAt(0, 100 - (scrollY * 0.05), 0);
+        } else {
+            camera.lookAt(0, 0, 0);
         }
 
-        if (auroraPoints) {
-          const aurPos = auroraPoints.geometry.attributes.position.array;
-          for (let a = 0; a < auroraCount; a++) {
-            aurPos[a * 3 + 1] += Math.sin(count * 0.4 + a) * 0.3;
-          }
-          auroraPoints.geometry.attributes.position.needsUpdate = true;
+        const positions = particles.geometry.attributes.position.array;
+
+        if (season === 'winter') {
+            // Animasi Salju
+            const vels = particles.userData.velocities;
+            for(let i=0; i<positions.length/3; i++) {
+               positions[i*3+1] -= vels[i]; // Turun ke bawah (Y axis)
+               if (positions[i*3+1] < -2000) positions[i*3+1] = 2000; // Reset ke atas
+               
+               // Drift X (Angin)
+               positions[i*3] += Math.sin(count * 0.1 + i) * 0.5;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y = count * 0.02;
+
+        } else if (season === 'summer') {
+            // Animasi Kunang-kunang/Summer
+            const phases = particles.userData.phases;
+            for(let i=0; i<positions.length/3; i++) {
+              positions[i*3+1] += Math.sin(count * 0.5 + phases[i]) * 2; // Naik turun
+              positions[i*3] += Math.cos(count * 0.3 + phases[i]) * 2;   // Kiri kanan
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y = count * 0.05;
+
+        } else if (season === 'default') {
+            // Animasi Wave
+            let i = 0;
+            const amountX = particles.userData.amountX;
+            const amountY = particles.userData.amountY;
+            for (let ix = 0; ix < amountX; ix++) {
+                for (let iy = 0; iy < amountY; iy++) {
+                const scrollInfluence = scrollY * 0.0005;
+                positions[i + 1] = (Math.sin((ix + count + scrollInfluence) * 0.3) * 40) + (Math.sin((iy + count) * 0.5) * 40);
+                i += 3;
+                }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            // Animasi Aurora
+            if (auroraPoints) {
+                const aurPos = auroraPoints.geometry.attributes.position.array;
+                const auroraCount = aurPos.length / 3;
+                for (let a = 0; a < auroraCount; a++) {
+                    aurPos[a * 3 + 1] += Math.sin(count * 0.4 + a) * 0.3;
+                }
+                auroraPoints.geometry.attributes.position.needsUpdate = true;
+            }
         }
 
         renderer.render(scene, camera);
@@ -253,8 +349,9 @@ const ThreeBackground = () => {
       cancelAnimationFrame(animationFrameId);
       if (renderer) renderer.dispose();
       if (document.head.contains(script)) document.head.removeChild(script);
+      if (mountRef.current) mountRef.current.innerHTML = '';
     };
-  }, []);
+  }, [season]); // Re-run effect saat season berubah
 
   return <div ref={mountRef} className="fixed inset-0 z-0 pointer-events-none opacity-50" />;
 };
@@ -341,8 +438,8 @@ const LoadingScreen = ({ onComplete }) => {
   );
 };
 
-// 2. Navbar
-const Navbar = () => {
+// 2. Navbar (Modified for Season Control)
+const Navbar = ({ season, setSeason }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
 
@@ -360,24 +457,45 @@ const Navbar = () => {
     { name: 'CONTACT', href: '#contact' },
   ];
 
+  // Fungsi Toggle Musim
+  const cycleSeason = () => {
+    if (season === 'default') setSeason('winter');
+    else if (season === 'winter') setSeason('summer');
+    else setSeason('default');
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 py-4 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center text-white">
         <div className="text-2xl font-black font-mono tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 text-white">
           VEECODES.ID
         </div>
-        <div className="hidden md:flex gap-10 text-white">
+        
+        <div className="hidden md:flex items-center gap-10 text-white">
           {navLinks.map((link) => (
             <a key={link.name} href={link.href} className="text-xs font-mono tracking-widest text-gray-400 hover:text-white transition-colors relative group">
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-500 transition-all group-hover:w-full"></span>
             </a>
           ))}
+          
+          {/* Tombol Ganti Musim */}
+          <button 
+              onClick={cycleSeason}
+              className="p-2 ml-4 rounded-full bg-white/10 hover:bg-white/20 transition-all text-blue-400 border border-white/5 hover:scale-110"
+              title={`Effect: ${season.toUpperCase()}`}
+          >
+              {season === 'default' && <Layers size={18} />}
+              {season === 'winter' && <CloudSnow size={18} />}
+              {season === 'summer' && <Sun size={18} />}
+          </button>
         </div>
+
         <button className="md:hidden text-white" onClick={() => setMobileMenu(!mobileMenu)}>
           {mobileMenu ? <X /> : <Menu />}
         </button>
       </div>
+
       {mobileMenu && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-2xl border-b border-white/10 flex flex-col p-6 gap-4 md:hidden animate-fade-in text-white">
           {navLinks.map((link) => (
@@ -385,6 +503,16 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
+          <div className="pt-4 border-t border-white/10 flex justify-center">
+             <button 
+                onClick={cycleSeason}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-blue-400 font-mono text-xs tracking-widest"
+             >
+                {season === 'default' && <><Layers size={16} /> DEFAULT EFFECT</>}
+                {season === 'winter' && <><CloudSnow size={16} /> SNOW EFFECT</>}
+                {season === 'summer' && <><Sun size={16} /> SUMMER EFFECT</>}
+             </button>
+          </div>
         </div>
       )}
     </nav>
@@ -690,7 +818,7 @@ const Projects = () => {
     };
   }, [showDetailModal]);
 
-  // Auto Switch Logic
+  // Auto Switch 
   useEffect(() => {
     let interval;
     if (!isPaused && !showDetailModal) { // Stop auto-switch if modal is open
@@ -751,7 +879,6 @@ const Projects = () => {
 
   const activeProject = projects[activeIndex];
   
-  // --- New Logic for Full Queue Sliding ---
   // Get all projects EXCEPT the active one to show in the queue
   const otherProjects = projects.filter(p => p.id !== activeProject.id);
   
@@ -1090,8 +1217,6 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // GANTI TIGA TEXT DI BAWAH INI DENGAN ID DARI EMAILJS KAMU
-    // SANGAT DISARANKAN PAKAI .ENV (lihat langkah 4), TAPI HARDCODE JUGA BISA UNTUK TES
     emailjs.sendForm(
       import.meta.env.VITE_SERVICE_ID,   
       import.meta.env.VITE_TEMPLATE_ID,  
@@ -1101,7 +1226,7 @@ const Contact = () => {
     .then((result) => {
         alert("Pesan berhasil dikirim! Saya akan segera membalasnya.");
         setLoading(false);
-        e.target.reset(); // Reset form setelah kirim
+        e.target.reset(); 
     }, (error) => {
         alert("Gagal mengirim pesan. Silakan coba lagi atau hubungi via DM Instagram.");
         console.log(error.text);
@@ -1118,12 +1243,12 @@ const Contact = () => {
             <p className="text-gray-400 max-w-md font-light leading-relaxed mb-10 text-white">Punya proyek menarik atau ingin sekadar menyapa? Kirimkan pesan langsung melalui formulir terenkripsi ini.</p>
           </div>
           
-          {/* Form dimulai disini */}
+          {/* Form */}
           <form ref={form} onSubmit={sendEmail} className="space-y-6 text-white">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
               <input 
                 type="text" 
-                name="user_name" // PENTING: Harus sama dengan variabel di EmailJS
+                name="user_name" // PENTING
                 required
                 placeholder="Nama Lengkap" 
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-blue-500/50 transition-all font-light focus:bg-white/10 text-white" 
@@ -1197,10 +1322,11 @@ const Contact = () => {
   );
 };
 
-// --- Main App Component ---
+// Main App Component 
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [season, setSeason] = useState('default'); // Default, winter, summer
 
   const handleLoadingComplete = useCallback(() => {
     setLoading(false);
@@ -1238,15 +1364,15 @@ export default function App() {
         }
       `}</style>
 
-      {/* 3D Background */}
-      {!loading && <ThreeBackground />}
+      {/* 3D Background  */}
+      {!loading && <ThreeBackground season={season} />}
 
       {loading ? (
         <LoadingScreen onComplete={handleLoadingComplete} />
       ) : (
         <>
-          {/*  Navbar ditempatkan di luar animate-fade-in agar tidak terkena transform parent */}
-          <Navbar />
+          {/* Navbar  */}
+          <Navbar season={season} setSeason={setSeason} />
           
           <div className="relative z-10 animate-fade-in text-white">
             <Hero />
