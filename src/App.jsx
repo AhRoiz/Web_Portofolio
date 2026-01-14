@@ -1074,7 +1074,7 @@ const About = () => (
 const Contact = () => {
   const socialLinks = [
     { icon: <Instagram size={20} />, label: "Instagram", href: "https://www.instagram.com/ari.ioz/", color: "hover:bg-pink-600" },
-    { icon: <IconX size={20} />, label: "Twitter", href: "https://twitter.com/AhRoiz", color: "hover:bg-blue-400" },
+    { icon: <IconX size={20} />, label: "Twitter", href: "https://twitter.com/ahrofzul56684", color: "hover:bg-blue-400" },
     { icon: <Github size={20} />, label: "Github", href: "https://github.com/AhRoiz", color: "hover:bg-gray-700" },
     { icon: <Linkedin size={20} />, label: "LinkedIn", href: "https://www.linkedin.com/in/ahroiz", color: "hover:bg-blue-700" },
     { icon: <Youtube size={20} />, label: "YouTube", href: "#", color: "hover:bg-red-600" },
