@@ -210,12 +210,14 @@ const Projects = () => {
         />
       </div>
 
+      {detailProject && (
       <ProjectModal 
         project={detailProject} 
         onClose={closeDetailModal} 
         onNext={handleNextDetail} 
         onPrev={handlePrevDetail} 
       />
+    )}
     </section>
   );
 };
