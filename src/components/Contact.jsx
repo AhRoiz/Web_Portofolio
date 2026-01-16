@@ -13,13 +13,24 @@ const Contact = () => {
     { icon: <IconX size={20} />, label: "Twitter", href: "https://twitter.com/ahrofzul56684", color: "hover:bg-blue-400" },
     { icon: <Github size={20} />, label: "Github", href: "https://github.com/AhRoiz", color: "hover:bg-gray-700" },
     { icon: <Linkedin size={20} />, label: "LinkedIn", href: "https://www.linkedin.com/in/ahroiz", color: "hover:bg-blue-700" },
-    { icon: <Youtube size={20} />, label: "YouTube", href: "#", color: "hover:bg-red-600" },
     { icon: <IconDiscord size={20} />, label: "Discord", href: "https://discordapp.com/users/541250359625252867", color: "hover:bg-indigo-600" },
     { icon: <IconWhatsapp size={20} />, label: "WhatsApp", href: "https://wa.me/6282120648685", color: "hover:bg-indigo-600" }
   ];
 
+  // 2. Logic Kirim Email dengan Rate Limit
   const sendEmail = (e) => {
     e.preventDefault();
+
+    // CEK RATE LIMIT (COOLDOWN)
+    const lastSent = localStorage.getItem('lastEmailTime');
+    const cooldownTime = 5 * 60 * 1000; // 5 Menit
+
+    if (lastSent && Date.now() - lastSent < cooldownTime) {
+      const remainingTime = Math.ceil((cooldownTime - (Date.now() - lastSent)) / 60000);
+      alert(`Mohon tunggu ${remainingTime} menit lagi sebelum mengirim pesan baru.`);
+      return; // Stop
+    }
+
     setLoading(true);
 
     emailjs.sendForm(
@@ -30,10 +41,14 @@ const Contact = () => {
     )
     .then((result) => {
         alert("Pesan berhasil dikirim! Saya akan segera membalasnya.");
+        
+        // SIMPAN WAKTU
+        localStorage.setItem('lastEmailTime', Date.now());
+        
         setLoading(false);
         e.target.reset(); 
     }, (error) => {
-        alert("Gagal mengirim pesan. Silakan coba lagi atau hubungi via DM Instagram.");
+        alert("Gagal mengirim pesan. Silakan coba lagi nanti.");
         console.log(error.text);
         setLoading(false);
     });
