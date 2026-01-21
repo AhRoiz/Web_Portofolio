@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-/* Di Tailwind v4, kita menggunakan @theme untuk kustomisasi, 
-   tapi untuk penggunaan dasar @apply, cukup pastikan import di atas benar. */
 
 @layer base {
   body {

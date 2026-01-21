@@ -59,34 +59,18 @@ const Projects = () => {
       demo: "https://mathmasterindonesia.my.id/",
       gallery: [
         { img: "/mathmaster/dashboard.png", desc: "Halaman dashboard interaktif dengan pilihan materi sesuai jenjang." },
-        { img: "/mathmaster/quiz.png", desc: "Sistem kuis adaptif untuk menguji pemahaman pengguna." },
-        { img: "/mathmaster/ai.png", desc: "Fitur tanya AI untuk menjawab pertanyaan dan juga membahas konsep matematika." }
+        { img: "/mathmaster/quiz.png", desc: "Sistem kuis adaptif untuk menguji pemahaman pengguna & kuis tingkat olimpiade pada berbagai jenjang." },
+        { img: "/mathmaster/ai.png", desc: "Fitur tanya AI untuk menjawab pertanyaan dan juga membahas konsep matematika dan sudah support upload foto." },
+        { img: "/mathmaster/calc.png", desc: "Fitur kalkulator saintifik matematika interaktif." }
       ]
     },
     { 
       id: 4,
-      title: "Campus WiFi Monitor", 
-      cat: "Network Security",
-      type: "Academic",
-      desc: "Sistem pemantauan performa dan keamanan jaringan WiFi kampus.",
-      longDesc: "Dashboard Monitoring WiFi Kampus dikembangkan untuk mengawasi infrastruktur jaringan universitas secara terpusat. Sistem ini mampu mendeteksi anomali pada trafik WiFi.",
-      tech: ["Python", "Grafana", "Prometheus", "SNMP Protocol"],
-      img: "/wifi_campus/dashboard1.png",
-      github: "https://github.com/AhRoiz",
-      demo: "#",
-      gallery: [
-        { img: "/wifi_campus/dashboard1.png", desc: "Real-time traffic monitoring dashboard." },
-        { img: "/wifi_campus/dashboard2.png", desc: "Weekly Snapshot dan monitoring harian." },
-        { img: "/wifi_campus/dashboard3.png", desc: "Laporan MSR dan tabel rekomendasi." }
-      ]
-    },
-    { 
-      id: 5,
       title: "MBC Lab Landing Page", 
       cat: "Web Development",
       type: "Academic",
-      desc: "Landing page profil untuk laboratorium riset MBC (Multimedia, Big Data, Cyber Security).",
-      longDesc: "Website profil resmi untuk MBC Laboratory Telkom University. Platform ini menyajikan informasi komprehensif mengenai divisi riset (Cybersecurity, Big Data, Game Tech, GIS) dan visi misi laboratorium.",
+      desc: "Landing page mockup profil untuk laboratorium riset MBC (Multimedia, Big Data, Cyber Security).",
+      longDesc: "Website profil untuk MBC Laboratory Telkom University. Platform ini menyajikan informasi komprehensif mengenai divisi riset (Cybersecurity, Big Data, Game Tech, GIS) dan visi misi laboratorium.",
       tech: ["HTML5", "Tailwind CSS", "JavaScript"],
       img: "/mbc/landingpage.png",
       github: "https://github.com/AhRoiz/mbc-lab",
@@ -96,7 +80,61 @@ const Projects = () => {
         { img: "mbc/divisi.png", desc: "Halaman profil divisi Cybersecurity, Big Data, Game dan GIS" },
         { img: "mbc/kontak.png", desc: "Formulir kontak terintegrasi untuk kolaborasi riset." }
       ]
-    }
+    },
+    { 
+      id: 5, 
+      title: "DevMind AI", 
+      cat: "AI Development Tool", 
+      type: "Featured",
+      desc: "Platform analisis kode cerdas berbasis Google Gemini 2.5 Flash untuk membantu developer junior.",
+      longDesc: "DevMind AI adalah asisten koding cerdas yang mengintegrasikan Google Gemini API untuk melakukan analisis statis, audit keamanan, dan visualisasi alur kode secara real-time. Dibangun dengan pendekatan 'Zero-npm-bloat', menggunakan custom Markdown renderer dan Mermaid.js wrapper yang dioptimasi untuk performa tinggi.",
+      tech: ["React JS", "Gemini API", "Mermaid.js", "Tailwind CSS"],
+      img: "/devmind/dashboard.png", 
+      github: "#", 
+      demo: "#", 
+      gallery: [
+        { img: "/devmind/dashboard.png", desc: "Antarmuka utama DevMind dengan Code Editor disertai opsi pilihan Panel eksekusi." },
+        { img: "/devmind/security.png", desc: "Fitur Security Audit mendeteksi celah keamanan dan memberikan solusi patch." },
+        { img: "/devmind/recommend.png", desc: "Rekomendasi kode yang optimal berdasarkan analisis statis." },
+        { img: "/devmind/flowchart.png", desc: "Visualisasi kode otomatis menjadi Flowchart menggunakan Mermaid.js." },
+        { img: "/devmind/quiz.png", desc: "Fitur kuis interaktif untuk mengevaluasi pemahaman kode." }
+      ]
+    },
+    { 
+      id: 6, 
+      title: "Pomocute", 
+      cat: "Desktop Productivity App", 
+      type: "Featured",
+      desc: "Aplikasi Pomodoro Timer desktop dengan estetika yang lucu dan menenangkan.",
+      longDesc: "Pomocute adalah aplikasi produktivitas desktop yang dibangun menggunakan Electron. Didesain khusus untuk mengurangi kecemasan saat bekerja, Pomocute menghadirkan fitur timer fokus yang dapat dikustomisasi, mode istirahat, serta pemutar suara ambien (hujan, lo-fi) untuk menciptakan suasana kerja yang nyaman.",
+      tech: ["Electron", "React JS", "Vite", "Tailwind CSS"],
+      img: "/pomocute/main.png", 
+      github: "#", 
+      demo: "#", 
+      gallery: [
+        { img: "/pomocute/main.png", desc: "Tampilan timer utama dengan karakter yang lucu yang ikut menemani belajar." },
+        { img: "/pomocute/setting.png", desc: "Pengaturan tema aplikasi, durasi fokus dan pilihan suara ambien." },
+        { img: "/pomocute/catsetting.png", desc: "Pengaturan karakter yang lucu untuk menambah kesenangan." },
+        { img: "/pomocute/break.png", desc: "Mode istirahat untuk menjaga kesehatan mata dan pikiran ditemani oleh teman yang lucu." }
+      ]
+    },
+    { 
+      id: 7, 
+      title: "Cinetheque", 
+      cat: "Web Archive", 
+      type: "Personal",
+      desc: "Arsip digital estetik untuk mencatat ulasan film dan anime favorit.",
+      longDesc: "Cinetheque adalah platform web yang didesain dengan nuansa 'warm' dan estetik untuk para pecinta film. Aplikasi ini memungkinkan pengguna untuk membuat log tontonan, memberikan rating personal, dan menulis ulasan mendalam. 'Bukan bermaksud untuk menyaingi IMDB, hanya pure ekspresif sang penulis'.",
+      tech: ["React JS", "Tailwind CSS", "LocalStorage", "Framer Motion"],
+      img: "/cinetheque/home.png", 
+      github: "#", 
+      demo: "#", 
+      gallery: [
+        { img: "/cinetheque/home.png", desc: "Halaman beranda dengan galeri poster film yang estetik." },
+        { img: "/cinetheque/detail.png", desc: "Halaman detail film dengan ulasan personal dan rating." },
+        { img: "/cinetheque/profile.png", desc: "Halaman profil pengguna dengan obsesi sang penulis." }
+      ]
+    },
   ];
 
   useEffect(() => {

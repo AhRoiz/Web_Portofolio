@@ -6,7 +6,7 @@ const Hero = () => {
   const [roleText, setRoleText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopIndex, setLoopIndex] = useState(0);
-  const roles = ["Web Designer / Developer", "Cyber Tester", "Software Developer", "Game Developer"];
+  const roles = ["Web Designer / Dev", "Cyber Tester", "Software Developer", "Tech Enthusiast"];
 
   useEffect(() => {
     const handleType = () => {

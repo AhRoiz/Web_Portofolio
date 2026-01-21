@@ -8,7 +8,7 @@ const About = () => (
         <div className="relative group text-white">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
           <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-black border border-white/10 flex items-center justify-center overflow-hidden relative text-white">
-             <img src="/ahmad.jpeg" alt="Ahmad Rofi' Izzulhaq" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 text-white" onError={(e) => { e.target.style.display = 'none'; }} />
+             <img src="/animme.jpeg" alt="Ahmad Rofi' Izzulhaq" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 text-white" onError={(e) => { e.target.style.display = 'none'; }} />
              <div className="absolute inset-0 flex flex-col items-center justify-center -z-10 bg-gradient-to-tr from-gray-800 to-black text-white">
                 <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-gray-800 to-black mx-auto mb-4 border border-white/5 flex items-center justify-center text-white">
                   <span className="text-white/20 font-black text-6xl text-white">V</span>
