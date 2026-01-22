@@ -27,8 +27,8 @@ const About = () => (
             Membangun Masa Depan <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 italic font-light">Line by line.</span>
           </h2>
           <div className="space-y-6 text-gray-400 text-lg leading-relaxed font-light text-white">
-            <p>Halo! Saya <strong className="text-white">Vee</strong>, seorang pelajar dan juga pengembang yang percaya bahwa kode adalah bentuk seni modern. Saya menggabungkan estetika desain web dengan keamanan siber yang ketat.</p>
-            <p>Bagi saya, tantangan teknis bukan sekadar masalah yang harus diselesaikan, tapi peluang untuk menciptakan inovasi yang berdampak nyata bagi pengguna di seluruh dunia.</p>
+            <p>Halo! Saya <strong className="text-white">Vee</strong>, seorang pelajar dan juga pengembang web. Menciptakan dan menulis seni modern yang indah disertai dengan keamanan siber yang ketat.</p>
+            <p>Coding, bukanlah hanya tantangan teknis atau sekadar masalah yang harus diselesaikan, tapi peluang untuk menciptakan inovasi yang berdampak nyata bagi pengguna di seluruh dunia.</p>
           </div>
         </FadeInSection>
       </div>
